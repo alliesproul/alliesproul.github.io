@@ -20,4 +20,4 @@
 ### I am currently enrolled in Data Structures, Systems Programming, and Logic Design. 
 
 ### Email: asproul@nd.edu
-[LinkedIn](https://www.linkedin.com/in/alliesproul/)
+### [LinkedIn](https://www.linkedin.com/in/alliesproul/)
