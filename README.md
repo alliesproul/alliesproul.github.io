@@ -7,15 +7,17 @@
 ### My relevant coursework includes Engineering Computing, Discrete Mathematics, Linear Algebra and Differential Equations, and Fundamentals of Computing.
 ### These are some projects that I have created in my Fundamentals of Computing Course: 
 ### Pong Game
-+ [Pong Project](pongProject)
+#### + [Pong Project](pongProject)
+
 ### Game of Life
-+ [Game of Life Header](lifefuncHeader)
-+ [Game of Life Functions](lifefuncCode)
-+ [Game of Life Main](playlife.c)
+#### + [Game of Life Header](lifefuncHeader)
+#### + [Game of Life Functions](lifefuncCode)
+#### + [Game of Life Main](playlife.c)
+
 ### Crossword Creator 
-+ [Crossword Header](crossfuncH)
-+ [Crossword Functions](crossfuncC)
-+ [Crossword Main](crosswordC)
+#### + [Crossword Header](crossfuncH)
+#### + [Crossword Functions](crossfuncC)
+#### + [Crossword Main](crosswordC)
 
 ### I am currently enrolled in Data Structures, Systems Programming, and Logic Design. 
 
