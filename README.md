@@ -4,7 +4,8 @@
 ![my headshot](/images/headshot.jpg)
 ![nd cse logo](/images/nd_cse_logo.jpg)
 
-### These are some projects that I have created: 
+### My relevant coursework includes Engineering Computing, Discrete Mathematics, Linear Algebra and Differential Equations, and Fundamentals of Computing.
+### These are some projects that I have created in my Fundamentals of Computing Course: 
 ### Pong Game
 + [Pong Project](pongProject)
 ### Game of Life
@@ -15,3 +16,8 @@
 + [Crossword Header](crossfuncH)
 + [Crossword Functions](crossfuncC)
 + [Crossword Main](crosswordC)
+
+### I am currently enrolled in Data Structures, Systems Programming, and Logic Design. 
+
+### Email: asproul@nd.edu
+[LinkedIn](https://www.linkedin.com/in/alliesproul/)
