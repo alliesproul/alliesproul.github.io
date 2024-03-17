@@ -1,5 +1,6 @@
 # **Allie Sproul's Website** 
 ## Hello! I am a sophomore studying Computer Science with a minor in Engineering Corporate Practice at the University of Notre Dame
+### I am originally from Brielle, New Jersey. 
 ### I am interested in technology consulting and cybersecurity. 
 ![my headshot](/images/headshot.jpg)
 ![nd cse logo](/images/nd_cse_logo.jpg)
@@ -21,5 +22,5 @@
 
 ### I am currently enrolled in Data Structures, Systems Programming, and Logic Design. 
 
-### Email: asproul@nd.edu
+### [Email:](asproul@nd.edu)
 ### [LinkedIn](https://www.linkedin.com/in/alliesproul/)
