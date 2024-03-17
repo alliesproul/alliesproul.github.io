@@ -6,12 +6,12 @@
 
 ### These are some projects that I have created: 
 ### Pong Game
-[Pong Project](pongProject)
++[Pong Project](pongProject)
 ### Game of Life
-[Game of Life Header](lifefuncHeader)
-[Game of Life Functions](lifefuncCode)
-[Game of Life Main](playlife.c)
++[Game of Life Header](lifefuncHeader)
++[Game of Life Functions](lifefuncCode)
++[Game of Life Main](playlife.c)
 ### Crossword Creator 
-[Crossword Header](crossfuncH)
-[Crossword Functions](crossfuncC)
-[Crossword Main](crosswordC)
++[Crossword Header](crossfuncH)
++[Crossword Functions](crossfuncC)
++[Crossword Main](crosswordC)
