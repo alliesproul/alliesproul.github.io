@@ -1,0 +1,197 @@
+// project.c
+// Allie Sproul
+// asproul
+// this code will resemble the pong game 
+
+#include <stdio.h>
+#include "gfx2.h"
+#include <time.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+// global variables 
+#define SIZE 40
+#define width 800
+#define height 500
+#define radius 20
+
+// player struct 
+typedef struct {
+	int point;
+	int wins; 
+	} Player;
+
+// ball speed struct 
+typedef struct {
+	float x; 
+	float y; 
+	} Speed;  
+
+// rectangle struct 
+typedef struct {
+	int xm; 
+	int ym; 
+	} Rectangle; 
+
+// function prototypes 
+void drawBorder(); 
+void gameFunc(float xc, float yc, Player, Player, Rectangle, Rectangle, Speed, char);
+void playerPoint(Player, Player); 
+
+// main function 
+int main () {
+
+	Player player1; 
+	Player player2;  
+	Speed ball1; 
+	Rectangle rec1; 
+	Rectangle rec2; 
+
+	gfx_open(width, height, "Let's Play Pong!"); 
+	float xc = width/2, yc = height/2, xc2 = width/2, yc2 = height/2;  
+	rec1.xm = 1+SIZE/2, rec1.ym = height/2, rec2.xm = width-SIZE/2-1, rec2.ym = height/2; 
+	ball1.x = 0.5; // x direction 
+	ball1.y = 0.5; // y direction 
+	player1.point = 0; 
+	player2.point = 0; 
+	int bc1 = 255, bc2 = 255, bc3 = 255; 
+
+	char c = 0; 
+	gameFunc(xc, yc, player1, player2, rec1, rec2, ball1, c); 
+	char text5[] = "If you want to play again press r, if you want to quit press q"; 
+	gfx_text(width/2-200, height/2+30, text5); 
+
+	while (gfx_event_waiting) { 
+		c = gfx_wait(); 
+		if (c == 'r')
+			gameFunc(xc, yc, player1, player2, rec1, rec2, ball1, c); 
+		if (c == 'q') return 0; 
+	}
+	return 0; 
+
+ }
+
+// main game function 
+void gameFunc(float xc, float yc, Player player1, Player player2, Rectangle rec1, Rectangle rec2, Speed ball1, char c) {
+	while (1) {
+		while (gfx_event_waiting()) {
+			c = gfx_wait();
+// left rectangle 
+			if (c == 'w') // up 
+				rec1.ym -= 5; 
+			if (c == 's') // down 
+				rec1.ym += 5; 
+
+// right rectangle 
+			if (c == 'i') // up 
+				rec2.ym -= 5; 
+			if (c == 'k') // down
+				rec2.ym += 5; 
+
+			if (c == 'q') return; 
+		} 
+		gfx_clear();
+		gfx_fill_circle(xc, yc, radius); 
+		drawBorder(); 
+// dipslay text 
+		char text[80];
+		sprintf(text, "PLAYER 1: %d  PLAYER 2: %d", player1.point, player2.point); 
+		gfx_text(width/2 - 80, 15, text); 
+
+// create player rectangles 
+		gfx_fill_rectangle(rec1.xm, rec1.ym, SIZE/2, SIZE); 
+		gfx_fill_rectangle(rec2.xm-SIZE/2, rec2.ym, SIZE/2, SIZE); 
+
+// randomize the side 
+
+		xc = xc + ball1.x; 
+		yc = yc + ball1.y; 
+// circle hits bottom - keep going 
+		if (yc + radius >= height){
+			ball1.y = -ball1.y; 
+			yc = height - radius; 
+		}
+// circle hits top - keep going 
+		if (yc - radius <= 0) {
+			ball1.y = -ball1.y; 
+			yc = radius; 
+		}
+
+// right side
+		if (xc + radius >= rec2.xm - SIZE/2) {
+			if ((yc-radius >= rec2.ym+SIZE) || (yc+radius <= rec2.ym-SIZE/2)) {
+				if (xc + radius >= width - 1) 	{
+					xc = width/2; 
+					yc = height/2; 
+					player1.point += 1;
+					ball1.x = 0.4; // reset speed 
+					ball1.x *= -1; // flip direction of ball 
+					ball1.y = 0; // ball initially goes straight
+					gfx_flush();  
+				}
+			}
+			else {
+				// collision
+				xc = width-SIZE-radius-1; 
+				ball1.x += 0.2; // increase speed  
+				ball1.y += 0.2; // change speed
+				ball1.x = -ball1.x;
+				srand(time(0));
+				gfx_color(rand()%256, rand()%256, rand()%256); 
+			}
+		}
+// left side
+		else if (xc - radius <= rec1.xm + SIZE/2) {
+			if ((yc-radius >= rec1.ym+SIZE) || (yc+radius <= rec1.ym-SIZE/2)){
+				if (xc - radius <= 1) {
+					player2.point += 1;
+					xc = width/2; 
+					yc = height/2;
+					ball1.x = 0.4; // reset speed 
+					ball1.x *= -1; // flip how the ball starts 
+					ball1.y = 0;  // horizontal path initially 
+					gfx_flush(); 
+				}
+			}
+			else {
+			// collision
+				xc = radius+SIZE + 1; 
+				ball1.x -= 0.2;   // increase speed 
+				ball1.y -= 0.2;   // change speed 
+				ball1.x = -ball1.x; 
+				srand(time(0)); 
+				gfx_color(rand()%256, rand()%256, rand()%256); 
+			}
+		} 
+
+		if (player1.point == 5) {
+			char text1[] = "Player 1 wins!!"; 
+			gfx_text(width/2-85, height/2, text1);
+			sleep(1); 
+			break; 
+		}
+			
+		if (player2.point == 5) {
+			char text2[] = "Player 2 wins!!"; 
+			gfx_text(width/2-85, height/2, text2);
+			sleep(1);   
+			break; 
+		}
+
+		usleep(5000); 
+		}
+
+	return; 
+}
+
+// draw the border 
+void drawBorder() {
+	gfx_line(1,1,width-1,1); 
+	gfx_line(width-1,1,width-1,height-1); 
+	gfx_line(width-1,height-1,1,height-1);
+	gfx_line(1,height-1,1,1); 
+}
+
+
+
+
