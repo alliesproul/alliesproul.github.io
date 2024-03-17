@@ -1,0 +1,29 @@
+// crossfunc.h
+// header file
+// Allie Sproul
+// asproul
+
+// Word struct 
+typedef struct {
+	int mode;
+	char userFile[20];
+	char word[15];
+	int length;
+	int where;
+	char orientation[6];
+	int x;
+	int y;
+		} Word;
+
+#define boardSize 15
+
+// functions used in program 
+void sort(Word wordList[],int count);
+void readInput(int maxWords, Word wordList[]);
+void makeBoard(char arr[][boardSize], char character);
+void printBoard(char board[][boardSize], char board2[][boardSize], Word words[], int count);
+char toUpper(char);
+void placeMiddle(Word wordList[], int count);
+void clues(Word wordList[], int count);
+int placeVertical(Word wordList[], char common, int position, int a, int z, char solution[][boardSize], int j); 
+int placeHoriz(Word wordList[], char common, int position, int y, int b, char solution[][boardSize], int j);  

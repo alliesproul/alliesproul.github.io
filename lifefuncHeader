@@ -1,0 +1,21 @@
+//Allie Sproul
+//fund comp lab 6
+//lifefunc.h
+//asproul
+
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define SPACE ' '
+#define SIZE 40
+
+// prototypes for all functions used in code 
+void initialize(char [][SIZE]); 
+void display(char [][SIZE]);
+void add(int row, int col, char [][SIZE]);
+void rmv(int row, int col, char [][SIZE]);  
+void advance(char [][SIZE], char [][SIZE]);
+void printMenu();  
+

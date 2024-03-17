@@ -1,0 +1,364 @@
+// crossfunc.c
+// function file
+// Allie Sproul
+// asproul
+
+#define _GNU_SOURCE
+#include <stdio.h>
+#include "crossfunc.h"
+#include <math.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+
+// sort words descending order of length of string 
+void sort(Word wordList[], int count) {
+	int i, j; 
+	bool swapped; 	
+	char temp[15];
+	for (i = 0; i < count - 1; i ++) {
+		swapped = false; 
+		for (j = 0; j < count - i - 1; j++){
+			if (strlen(wordList[j].word) < strlen(wordList[j+1].word)) {
+				strcpy(temp, wordList[j].word); 
+				strcpy(wordList[j].word, wordList[j+1].word); 
+				strcpy(wordList[j+1].word, temp); }}}	
+        for (int i = 0; i < count; i++) {
+                wordList[i].length = strlen(wordList[i].word);
+                wordList[i].where = 0;	
+        }
+// place the first word 
+      placeMiddle(wordList, count);
+}
+
+// read the input from the user 
+void readInput(int maxWords, Word wordList[]) {
+        int invalid = 0;
+        int count = 0;
+        char temp[maxWords+1];
+
+        while (count < maxWords) {
+                scanf("%s", temp);
+                if (temp[0] == '.') break;
+                if ((strlen(temp) > boardSize) || (strlen(temp) < 2)){
+                        printf("%s is invalid\n", temp);
+                        continue; }
+// check for valid input and convert to upper case 
+                else {
+                        for (int i = 0; i < strlen(temp); i++) {
+                                temp[i] = toUpper(temp[i]);
+                        }
+                        for (int i = 0; i < strlen(temp)-1; i++) {
+                                if ((temp[i] < 'A') || (temp[i] > 'Z')) {
+                                        invalid++;
+                                }
+                        }
+                        if (invalid > 0) {
+                                printf("invalid word\n");
+                                invalid = 0;
+                                continue;
+                        }
+                        strcpy(wordList[count].word, temp);
+						wordList[count].mode = 0; 
+                }
+                count++;
+        }
+// call sort function to sort user input 
+        sort(wordList, count);
+}
+
+// print board 
+void printBoard(char board[][boardSize], char board2[][boardSize], Word wordList[], int count){
+	char temp [15];
+// if user is in interactive mode or input a file name 
+	if(wordList[0].mode == 0) {
+        printf("\nSOLUTION:\n");
+        printf(" ");
+        for (int i = 0; i < boardSize; i++)
+                printf("-");
+        printf("\n");
+        for (int i = 0; i < boardSize; i++) {
+                printf("|");
+                for (int j = 0; j < boardSize; j++) {
+                        printf("%c", board[i][j]);}
+                        printf("|\n");
+                }
+        printf(" ");
+        for (int i = 0; i < boardSize; i++)
+                printf("-");
+        printf("\n");
+
+        printf("\nPUZZLE:\n");
+        printf(" ");
+        for (int i = 0; i < boardSize; i++)
+                printf("-");
+
+        printf("\n");
+
+        for (int i = 0; i < boardSize; i++) {
+                printf("|");
+                for (int j = 0; j < boardSize; j++) {
+                        printf("%c", board2[i][j]);
+                        }
+                printf("|\n");
+                }
+
+                printf(" ");
+                for (int i = 0; i < boardSize; i++)
+                        printf("-");
+                printf("\n");}
+// if user wants crossword to be outputted to a new file 
+	else {
+		FILE *fp = fopen(wordList[0].userFile, "w");
+    	fprintf(fp, "\nSOLUTION:\n");
+        fprintf(fp," ");
+        for (int i = 0; i < boardSize; i++)
+        	fprintf(fp, "-");
+
+        fprintf(fp, "\n");
+
+		for (int i = 0; i < boardSize; i++){
+        	fprintf(fp, "|");
+            for (int x = 0; x < boardSize; x++){
+                 fprintf(fp, "%c", board[i][x]);}
+            fprintf(fp, "|\n");}
+        fprintf(fp, " ");
+        for (int i = 0; i < boardSize; i++)
+                fprintf(fp, "-");
+
+        fprintf(fp, "\n");
+
+        fprintf(fp, "\nPUZZLE:\n");
+        fprintf(fp," ");
+        for (int i = 0; i < boardSize; i++)
+        	fprintf(fp, "-");
+
+        fprintf(fp, "\n");
+
+        for (int i = 0; i < boardSize; i++){
+                fprintf(fp, "|");
+                for (int x = 0; x < boardSize; x++){
+                	fprintf(fp, "%c", board2[i][x]);}
+        fprintf(fp, "|\n");}
+
+        fprintf(fp, " ");
+        for (int i = 0; i < boardSize; i++)
+        	fprintf(fp, "-");
+
+// print clues to output file 
+		fprintf(fp, "\n\nCLUES:\n");
+		fprintf(fp, "Location | Direction | Anagram\n"); 
+        for (int i = 0; i < count; i++){
+        	if (wordList[i].where == 1){
+            	strcpy(temp, (wordList[i].word));
+                strfry(temp);
+                strcpy(wordList[i].word, temp);
+				fprintf(fp, "%4d, %2d | %9s | %4s\n", wordList[i].x, wordList[i].y, wordList[i].orientation, wordList[i].word);}}
+
+	}}
+
+// create the board 
+void makeBoard(char arr[][boardSize], char character) {
+        for (int i = 0; i < boardSize; i++) {
+                for (int j = 0; j < boardSize; j++) {
+                        arr[i][j] = character;
+                }
+        }
+}
+
+// place inputted words 
+void placeWords(Word wordList[], int count, char puzzle[][boardSize], char solution[][boardSize]) {
+ 
+	int a = 0, b = 0; 
+	for(int j = 1; j < count; j++) {
+		for (int i = 0; i < boardSize; i++) {
+			for (int y = 0; y < boardSize; y++) {
+				for (int z = 0; z < boardSize; z++) {
+// check if word is directly next to another one 
+					if ((wordList[j].word[i] == solution[y][z])) {
+						char common = wordList[j].word[i];
+						int position;
+						int lastLetter = wordList[j].length - 1; 
+						a = y; 
+						b = z; 
+// vertical and at end of word 
+						if ((wordList[j].word[lastLetter] == wordList[j].word[i]) && (wordList[j].where == 0)) {
+							position = a - lastLetter; 
+							wordList[j].y = z + 1; 
+							if (placeVertical(wordList, common, position, a, z, solution, j) == 1) {
+								wordList[j].where = 1; 
+								strcpy(wordList[j].orientation, "down");
+								for (int x = 0; x < wordList[j].length; x++) {
+									solution[position][z] = wordList[j].word[x]; 
+									puzzle[position][z] = ' '; 
+									position++; }}} 
+// vertical at beginning of word 
+							else if ((wordList[j].word[0] == wordList[j].word[i]) && (wordList[j].where == 0)) {
+								position = 0; 
+								if ((placeVertical(wordList, common, position, a, z, solution, j)) == 1) {
+									wordList[j].x = a - position + 1; 
+									wordList[j].y = z + 1; 
+									wordList[j].where = 1; 
+									strcpy(wordList[j].orientation, "down"); 
+									for (int x = 0; x < wordList[j].length; x++){
+										solution[a-position][z] = wordList[j].word[x]; 
+										puzzle[a-position][z] = ' '; 
+										a++; }}}
+// vertical somewhere else in word 
+							else {
+								if (wordList[j].where == 0) {
+									position = i; 
+									wordList[j].x = a - position + 1; 
+									wordList[j].y = z + 1; 
+									if (placeVertical(wordList, common, position, a, z, solution, j) == 1) { 
+										wordList[j].where = 1; 
+										strcpy(wordList[j].orientation, "down"); 
+										for (int x = 0; x < wordList[j].length; x++) {
+										solution[a - position][z] = wordList[j].word[x];
+										puzzle[a-position][z] = ' '; 
+										a++; }}}}
+// check horizontal if not vertical 
+// letter at end of word horizontal 
+							if ((wordList[j].word[lastLetter] == wordList[j].word[i]) && (wordList[j].where == 0)) {
+								position = b - lastLetter; 
+								wordList[j].x = y + 1; 
+								wordList[j].y = position + 1; 
+								if ((placeHoriz(wordList, common, position, y, b, solution, j) == 1) && (position > 0)) { 
+									wordList[j].where = 1; 
+									strcpy(wordList[j].orientation, "across"); 
+									for (int x = 0; x < wordList[j].length; x++) {
+									solution[y][position] = wordList[j].word[x]; 
+									puzzle[y][position] = ' '; 
+									position++; }}}
+// horizontal with letter at beginning of the word
+							else if ((wordList[j].word[0] == wordList[j].word[i]) && (wordList[j].where == 0)) {
+								position = 0; 
+								wordList[j].x = y + 1; 
+								wordList[j].y = b - position + 1; 
+								if (placeHoriz(wordList, common, position, y, b, solution, j) == 1) {
+									wordList[j].where = 1; 
+									strcpy(wordList[j].orientation, "across"); 
+									for (int x = 0; x < wordList[j].length; x++) {
+										solution[y][b-position] = wordList[j].word[x]; 
+										puzzle[y][b-position] = ' '; 
+										b++; }}}
+// horizontal with letter somewhere else in the word 
+							else {
+								if (wordList[j].where == 0) {
+									position = i; 
+									wordList[j].x = y + 1; 
+									wordList[j].y = b - position + 1; 
+									if (placeHoriz(wordList, common, position, y, b, solution, j) == 1) {
+										wordList[j].where = 1; 
+										strcpy(wordList[j].orientation, "across"); 
+									for (int x = 0; x < wordList[j].length; x++) {
+										solution[y][b-position] = wordList[j].word[x]; 
+										puzzle[y][b-position] = ' '; 
+										b++; }}}}
+							}}}}}
+	for (int x = 0; x < count; x++) {
+		if (wordList[x].where == 0) {  
+			if (wordList[x].mode == 0) {
+				printf("%s could not be placed.\n", wordList[x].word);}}}
+// print the board 
+	printBoard(solution, puzzle, wordList, count);
+	printf("\n"); 
+	
+// when argc is one or two, not third mode
+	if(wordList[0].mode == 0)
+		clues(wordList, count); 
+} 
+// call when word is vertical to check if it meets requirements  
+int placeVertical(Word wordList[], char common, int position, int a, int z, char solution[][boardSize], int j) {
+	int x = 0; 
+	if ((a - position + wordList[j].length) > boardSize) return -1; 
+	if ((wordList[j].x > 15) || (wordList[j].x < 1)) return -1; 
+    for (x = 0; x < wordList[j].length; x++){
+		if (wordList[j].word[x] != common) {
+			if(solution[a-position][z+1] !='.') return -1; 
+			if(solution[a-position][z-1] !='.') return -1; 
+			if(solution[a-position][z] !='.') return -1; }
+		if (x==0)
+			if(solution[a-position-1][z] != '.') return -1; 
+		if (x == (wordList[j].length)-1) {
+			if (solution[a-position+1][z]!= '.') return -1; }
+		a++; 
+	}
+	return 1; 
+}
+
+// call when word is horizontal to check if it meets requirements 
+int placeHoriz(Word wordList[], char common, int position, int y, int b, char solution[][boardSize], int j){  
+	if ((b - position + wordList[j].length) > boardSize) return -1; 
+	if ((wordList[j].y > 15) || (wordList[j].y < 1)) return -1; 
+	for (int i = 0; i < wordList[j].length; i++) {
+		if (wordList[j].word[i] != common) {
+			if (solution[y-1][b-position] != '.') return -1;
+            if (solution[y+1][b-position] != '.') return -1;
+            if (solution[y][b-position] != '.') return -1;}
+		if (i==0)
+			if(solution[y][b-position -1] != '.') return -1; 
+		if (i == (wordList[j].length) -1) {
+			if (solution[y][b-position+1] != '.') return -1;
+		 } 
+		b++; 
+	}
+	return 1; 
+}  
+
+// first word inputted by user or file
+void placeMiddle(Word wordList[], int count) {
+        char period = '.';
+        char hashtag = '#';
+        char solution[boardSize][boardSize];
+        char puzzle[boardSize][boardSize];
+        int column, row, position;  
+		int y = 0; 
+
+        wordList[0].where = 1;
+
+// create the board 		 
+        makeBoard(solution, period);
+        makeBoard(puzzle, hashtag);
+
+		row = ceil(boardSize / 2); 
+		position = boardSize - wordList[y].length;
+		if (position < 15) {
+			if (position % 2)
+				position = position/2; 
+			else
+				position = floor(position/2); 
+			column = position; 
+		}
+		for (int i = 0; i < wordList[y].length; i++) {
+			solution[row][position] = wordList[y].word[i]; 
+			puzzle[row][position] = ' '; 
+			position++; 
+		}
+		wordList[0].x = row+1; 
+		wordList[0].y = column+1; 
+		strcpy(wordList[0].orientation, "across"); 
+// place the rest of the words in the board 
+		placeWords(wordList, count, puzzle, solution); 
+} 
+
+// convert lower case to upper case 
+char toUpper(char temp){
+	char upper; 
+	if (temp >= 97)
+		upper = temp - 32; 	
+}
+
+// print clues to user with scrambled letters 
+void clues(Word wordList[boardSize], int count) {
+	printf("\nCLUES:\n"); 
+	printf("Location | Direction | Anagram\n"); 
+	char temp[15]; 
+	for (int i = 0; i < count; i++) {
+		if (wordList[i].where == 1) {
+			strcpy(temp, (wordList[i].word)); 
+			strfry(temp); 
+			strcpy(wordList[i].word, temp); 
+			printf("%4d, %2d | %9s | %4s\n", wordList[i].y-1, wordList[i].x-1, wordList[i].orientation, wordList[i].word); //}
+	} }
+}

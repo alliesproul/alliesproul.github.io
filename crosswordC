@@ -1,0 +1,77 @@
+// crossword.c
+// driver file
+// Allie Sproul
+// asproul
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include "crossfunc.h"
+ 
+#define boardSize 15
+
+int main (int argc, char *argv[]) {
+	int maxWords = 20; 
+	char infile[20]; 	
+	Word wordList[maxWords];
+// interactive mode when user manually inputs words
+	if (argc == 1){  
+		printf("Welcome to Crossword!\n"); 
+		printf("Please enter up to twenty words for the crossword followed by a period:\n"); 
+		wordList[0].mode = 0; 
+		readInput(maxWords, wordList); 
+	}
+// batch mode when program gets words from a file
+	else if ((argc == 2) || (argc == 3)) {
+		int count = 0;   
+		if (argc == 2) {
+			printf("Welcome to Crossword!\n"); 
+		}
+		strcpy(infile, argv[1]);
+		FILE *fp = fopen(infile, "r"); 
+		if (!fp) {
+			printf("invalid file name, goodbye!\n"); 
+			return 1; }
+		char temp[maxWords + 1]; 
+		int invalid = 0;
+	
+// read in words from file and check for invalid words  	
+		while (count < maxWords) {
+			fscanf(fp, "%s", temp); 
+			if (temp[0] == '.') break; 
+			if ((strlen(temp) > boardSize) || (strlen(temp) < 2)) {
+				printf("invalid word\n");
+				continue; }
+			else {
+				for (int i = 0; i < strlen(temp); i++) {
+					temp [i] = toUpper(temp[i]); }
+				for (int i = 0; i < strlen(temp); i++) {
+					if ((temp[i] < 'A') || (temp[i] > 'Z')) 
+						invalid++;}
+				if (invalid > 0) {
+					printf("invalid word\n"); 
+					invalid = 0; 
+					continue; }
+				strcpy(wordList[count].word, temp); 
+				if (argc == 3) {
+					wordList[count].mode = 1; 
+					strcpy(wordList[count].userFile, argv[2]);
+				}
+				else
+					wordList[count].mode = 0; 
+					}
+			count++; }
+// sort the read in words 
+		sort(wordList, count); } 
+	else {
+		printf("Error\n"); }
+// user wants crossword to be outputted to file 
+	if (argc == 3) 
+		printf("The crossword has been created in %s.\n", argv[2]);
+		printf("\n");  
+	return 0; 
+}
+
+
+

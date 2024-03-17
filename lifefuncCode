@@ -1,0 +1,96 @@
+// Allie Sproul
+// fund comp lab 6
+// lifefunc.c
+// asproul
+
+#include <stdio.h>
+#include "lifefunc.h" 
+
+// function to initialize blank array 
+void initialize(char arr[SIZE][SIZE]) {
+	for (int i = 0; i < SIZE; i++) {
+		for (int j = 0; j < SIZE; j++) {
+			arr[i][j] = SPACE;
+		}
+	}
+}
+
+// print array with correct formatting 
+void display(char arr[SIZE][SIZE]) {
+	system("clear"); 
+	printf(" "); 
+	for(int i = 0; i < SIZE; i++) {
+		printf("-"); 
+	}
+	printf("\n"); 
+ 
+	for(int i = 0; i < SIZE; i++) {
+		printf("|"); 
+		for(int j = 0; j < SIZE; j++) {
+			printf("%c", arr[i][j]); 
+		}
+		printf("|");
+		printf("\n");  
+	}
+	printf(" "); 
+	for(int i = 0; i < SIZE; i++) {
+		printf("-");  
+	}
+	printf("\n"); 
+}
+
+// add 'x' to cell to make it alive
+void add(int row, int col, char arr[SIZE][SIZE]) {
+	if (arr[row-1][col-1] == SPACE)
+		arr[row-1][col-1] = 'x';  
+}
+
+// make cell a space to make it dead 
+void rmv(int row, int col, char arr[SIZE][SIZE]) {
+	if (arr[row-1][col-1] == 'x')
+		arr[row-1][col-1] = SPACE; 
+}
+
+// advance the program according to the rules of the game
+void advance(char arr[SIZE][SIZE], char temp[SIZE][SIZE]) { 
+        int x, y, live = 0;
+     
+        for (x = 0; x < SIZE; x++)
+                for (y = 0; y < SIZE; y++)
+                        temp[x][y] = arr[x][y];
+
+// check all spaces surrounding chosen spot 
+        for (x = 0; x < SIZE; x++){
+                for (y = 0; y < SIZE; y++){ 
+                        if (arr[x][y-1] == 'x') live += 1;
+                        if (arr[x-1][y-1] == 'x') live += 1;
+                        if (arr[x-1][y] == 'x') live += 1; 
+                        if (arr[x-1][y+1] == 'x') live += 1;
+                        if (arr[x][y+1] == 'x') live += 1;
+                        if (arr[x+1][y+1] == 'x') live += 1;
+                        if (arr[x+1][y] == 'x') live += 1; 
+                        if (arr[x+1][y-1] == 'x') live += 1;
+
+// rules of the game 
+                        if (live == 3)
+                                temp[x][y] = 'x';
+                        else if ((arr[x][y] == 'x') && (live == 2))
+                                temp[x][y] = 'x';
+                        else
+                                temp[x][y] = ' ';
+                        live = 0;}}
+
+        for (x = 0; x < SIZE; x++)
+                for (y = 0; y < SIZE; y++)
+                        arr[x][y] = temp[x][y];
+}	
+
+// print menu for user to choose from 
+void printMenu() {
+	printf("\na, followed by two integers: will add new live cell to coordinate\n");
+	printf("r, followed by two integers: remove a cell from coordinate\n");
+	printf("n: advance simulation to next iteration\n");
+	printf("q: quit the program\n");
+	printf("p: play the game continuously\n");
+}
+
