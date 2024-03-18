@@ -20,7 +20,7 @@
 #### + [Crossword Functions](crossfuncC)
 #### + [Crossword Main](crosswordC)
 
-### I am currently enrolled in Data Structures, Systems Programming, and Logic Design. 
+### I am currently enrolled in Data Structures, Systems Programming, and Logic Design and Sequential Circuits. 
 
 ### [asproul@nd.edu](asproul@nd.edu)
 ### [LinkedIn](https://www.linkedin.com/in/alliesproul/)
