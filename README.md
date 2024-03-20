@@ -3,7 +3,6 @@
 ### I am originally from Brielle, New Jersey. 
 ### I am interested in technology consulting and cybersecurity. 
 ![my headshot](/images/headshot.jpg)
-![nd cse logo](/images/nd_cse_logo.jpg)
 
 ### My relevant coursework includes Engineering Computing, Discrete Mathematics, Linear Algebra and Differential Equations, and Fundamentals of Computing.
 ### These are some projects that I have created in my Fundamentals of Computing Course: 
@@ -24,3 +23,4 @@
 
 ### [asproul@nd.edu](asproul@nd.edu)
 ### [LinkedIn](https://www.linkedin.com/in/alliesproul/)
+![nd cse logo](/images/nd_cse_logo.jpg)
