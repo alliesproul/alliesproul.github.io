@@ -1,10 +1,10 @@
 # **Allie Sproul's Website** 
-## Hello! I am a sophomore studying Computer Science with a minor in Engineering Corporate Practice at the University of Notre Dame
+## Hello! I am a senior studying Computer Science with a minor in Engineering Corporate Practice at the University of Notre Dame
 ### I am originally from Brielle, New Jersey. 
-### I am interested in technology consulting and cybersecurity. 
+### I am interested in technology consulting, cybersecurity, software engineering. 
 ![my headshot](/images/headshot.jpg)
 
-### My relevant coursework includes Engineering Computing, Discrete Mathematics, Linear Algebra and Differential Equations, and Fundamentals of Computing.
+### My relevant coursework includes Operating Systems, Data Science, Intro to AI, Computer Architecture, and Programming Paradigms.
 ### These are some projects that I have created in my Fundamentals of Computing Course: 
 ### Pong Game
 #### + [Pong Project](pongProject)
@@ -19,7 +19,7 @@
 #### + [Crossword Functions](crossfuncC)
 #### + [Crossword Main](crosswordC)
 
-### I am currently enrolled in Data Structures, Systems Programming, and Logic Design and Sequential Circuits. 
+### I am currently enrolled in Algorithms, Programming Challenges, Database Concepts, and Computer Networks. 
 
 ### [asproul@nd.edu](asproul@nd.edu)
 ### [LinkedIn](https://www.linkedin.com/in/alliesproul/)
