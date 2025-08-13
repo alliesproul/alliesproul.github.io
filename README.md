@@ -1,7 +1,7 @@
 # **Allie Sproul's Website** 
 ## Hello! I am a senior studying Computer Science with a minor in Engineering Corporate Practice at the University of Notre Dame
 ### I am originally from Brielle, New Jersey. 
-### I am interested in technology consulting, cybersecurity, software engineering. 
+### I am interested in technology consulting, cybersecurity, and software engineering. 
 ![my headshot](/images/headshot.jpg)
 
 ### My relevant coursework includes Operating Systems, Data Science, Intro to AI, Computer Architecture, and Programming Paradigms.
